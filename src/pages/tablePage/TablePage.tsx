@@ -108,7 +108,6 @@ const TablePage: React.FC = () => {
         ...editingData,
         birthday_date: formatDate(editingData.birthday_date),
       };
-      console.log(updatedRowWithNewDate.birthday_date);
 
       try {
         await dispatch(createTableData(updatedRowWithNewDate));
@@ -135,18 +134,27 @@ const TablePage: React.FC = () => {
 
   const handleSave = (id: number) => {
     if (editingData) {
-      const updatedRowWithNewDate = {
-        ...editingData,
-        birthday_date: formatDate(editingData.birthday_date),
-      };
+      const { name, email, birthday_date, phone_number } = editingData;
+
       if (
-        /^\S+@\S+\.\S+$/i.test(editingData.email) &&
-        /^[0-9+]*$/.test(editingData.phone_number)
+        name.trim() === "" ||
+        email.trim() === "" ||
+        !/^\S+@\S+\.\S+$/i.test(email) ||
+        birthday_date.trim() === "" ||
+        !/^(0[1-9]|[1-2][0-9]|3[0-1])-(0[1-9]|1[0-2])-\d{2}$/.test(
+          birthday_date
+        ) ||
+        phone_number.trim() === "" ||
+        !/^[0-9+]*$/.test(phone_number)
       ) {
+        alert("Будь ласка, заповніть всі поля правильно.");
+      } else {
+        const updatedRowWithNewDate = {
+          ...editingData,
+          birthday_date: formatDate(birthday_date),
+        };
         dispatch(updateTableData(updatedRowWithNewDate));
         setEditingRow(null);
-      } else {
-        alert("wrong format phone or email");
       }
     }
   };
