@@ -16,6 +16,7 @@ import { logOut } from "../../redux/auth/authSlice";
 import { TableRow } from "../../components/tableRow/TableRow";
 import { AddRowForm } from "../../components/rowForm/AddRowForm";
 import { TableComments } from "../../components/TableComments";
+import { Modal } from "../../components/modal/Modal";
 import { formatDate } from "../../helpers/formatDate";
 import {
   TablePageContainer,
@@ -277,14 +278,17 @@ const TablePage: React.FC = () => {
           </tbody>
         </Table>
 
-        {isNewRowFormVisible && (
+        <Modal
+          isOpen={isNewRowFormVisible}
+          onClose={() => setNewRowFormVisible(false)}
+        >
           <AddRowForm
             editingData={editingData}
             onCancel={() => setNewRowFormVisible(false)}
             onSave={handleSaveNewRow}
             onRowTableChange={handleRowTableChange}
           />
-        )}
+        </Modal>
 
         <PaginationContainer>
           <PaginationButton

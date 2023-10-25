@@ -1,4 +1,3 @@
-import React from "react";
 import { TableRowProps } from "../../types/tableRowProps";
 import { calculateAge } from "../../helpers/calculateAge";
 

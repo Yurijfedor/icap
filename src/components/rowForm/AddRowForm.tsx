@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { NewRowFormContainer } from "./AddRowForm.styled";
 
 interface AddRowFormProps {
   editingData: {
@@ -41,7 +42,7 @@ export const AddRowForm: React.FC<AddRowFormProps> = ({
   };
 
   return (
-    <div className="new-row-form">
+    <NewRowFormContainer>
       <h3>Додати новий рядок</h3>
       <div>
         <label>Name:</label>
@@ -92,6 +93,6 @@ export const AddRowForm: React.FC<AddRowFormProps> = ({
       </div>
       <button onClick={onCancel}>Скасувати</button>
       <button onClick={onSave}>Зберегти</button>
-    </div>
+    </NewRowFormContainer>
   );
 };

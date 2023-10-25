@@ -1,4 +1,3 @@
-import React from "react";
 import Greeting from "../components/greeting/Greeting";
 
 const Home: React.FC = () => {
