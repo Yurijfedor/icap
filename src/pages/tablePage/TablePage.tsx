@@ -104,29 +104,47 @@ const TablePage: React.FC = () => {
 
   const handleSaveNewRow = async () => {
     if (editingData) {
-      const updatedRowWithNewDate = {
-        ...editingData,
-        birthday_date: formatDate(editingData.birthday_date),
-      };
+      const { name, email, birthday_date, phone_number } = editingData;
 
-      try {
-        await dispatch(createTableData(updatedRowWithNewDate));
+      // Перевірка чи всі поля не є порожніми і відповідають критеріям
+      if (
+        name.trim() === "" ||
+        email.trim() === "" ||
+        !/^\S+@\S+\.\S+$/i.test(email) ||
+        birthday_date.trim() === "" ||
+        !/^(0[1-9]|[1-2][0-9]|3[0-1])-(0[1-9]|1[0-2])-\d{2}$/.test(
+          birthday_date
+        ) ||
+        phone_number.trim() === "" ||
+        !/^[0-9+]*$/.test(phone_number)
+      ) {
+        alert("Будь ласка, заповніть всі поля правильно.");
+      } else {
+        const updatedRowWithNewDate = {
+          ...editingData,
+          birthday_date: formatDate(birthday_date),
+        };
 
-        setEditingRow(null);
-        setEditingData({
-          id: 0,
-          name: "",
-          email: "",
-          birthday_date: "",
-          phone_number: "",
-          address: "",
-        });
-        setNewRowFormVisible(false);
-      } catch (error) {
-        console.error(error);
+        try {
+          await dispatch(createTableData(updatedRowWithNewDate));
+
+          setEditingRow(null);
+          setEditingData({
+            id: 0,
+            name: "",
+            email: "",
+            birthday_date: "",
+            phone_number: "",
+            address: "",
+          });
+          setNewRowFormVisible(false);
+        } catch (error) {
+          console.error(error);
+        }
       }
     }
   };
+
   const handleEdit = (id: number, row: TableData) => {
     setEditingRow(id);
     setEditingData(row);
